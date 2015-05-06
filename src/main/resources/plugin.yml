@@ -1,0 +1,7 @@
+name: TNTplus
+main: com.oneshotmc.tntplus.TNTplus
+version: 0.0.1-SNAPSHOT
+commands:
+   tntfill:
+      description: Fill all of the dispensers close to you with tnt.
+      usage: /tntfill
