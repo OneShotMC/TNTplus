@@ -5,16 +5,42 @@
   <version>0.0.1-SNAPSHOT</version>
   <repositories>
   	<repository>
+    	<id>shadowvolt-repo</id>
+    	<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+ 	</repository>
+  	<repository>
   		 <id>spigot-repo</id>
          <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
   	</repository>
+  	<repository>
+      <id>comphenix-rep</id>
+      <name>Comphenix Maven Releases</name>
+      <url>http://repo.comphenix.net/content/groups/public</url>
+    </repository>
   	</repositories>
   <dependencies>
+  	<dependency>
+  		<groupId>org.github.paperspigot</groupId>
+    	<artifactId>paperspigot-api</artifactId>
+    	<version>1.8.3-R0.1-SNAPSHOT</version>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/lib/PaperSpigot-API.jar</systemPath>
+  	</dependency>
+ 	 <dependency>
+    	<groupId>com.comphenix.protocol</groupId>
+    	<artifactId>ProtocolLib</artifactId>
+    	<version>3.6.3-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.comphenix.blockpatcher</groupId>
+  		<artifactId>BlockPatcher</artifactId>
+  		<version>1.4.1</version>
+  	</dependency>
   <dependency>
   		<groupId>org.spigotmc</groupId>
   		<artifactId>spigot-api</artifactId>
   		<version>1.8-R0.1-SNAPSHOT</version>
-  	</dependency>
+  </dependency>
   	<dependency>
   		<groupId>com.intellectualcrafters</groupId>
     	<artifactId>PlotSquared</artifactId>
@@ -22,5 +48,13 @@
     	<scope>system</scope>
     	<systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
   	</dependency>
+  	<dependency>
+  		<groupId>com.comphenix.packetwrapper</groupId>
+    	<artifactId>PacketWrapper</artifactId>
+    	<version>1.8-R0.1</version>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/lib/PacketWrapper.jar</systemPath>
+  	</dependency>
+  	
   </dependencies>
 </project>

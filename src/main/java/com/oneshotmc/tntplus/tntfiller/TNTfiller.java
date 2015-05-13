@@ -33,6 +33,9 @@ public class TNTfiller implements Listener, CommandExecutor{
 	public TNTfiller(TNTplus plugin){
 		this.plugin=plugin;
 	}
+	public TNTfiller() {
+		// TODO Auto-generated constructor stub
+	}
 	private static int radius=20;
 	public static void setRadius(int r){
 		radius=r;
@@ -97,6 +100,27 @@ public class TNTfiller implements Listener, CommandExecutor{
 			return;
 		}
 	}
+	//Only for creative
+	public void clearTnt(Player player){
+		int dispenAmount=0;
+		List<Dispenser> dispensers = locateDispensers(player);
+		for(Dispenser dispenser : dispensers){
+			if(dispenser.getInventory().contains(Material.TNT)){
+				dispenAmount++;
+				dispenser.getInventory().clear();
+			}
+		}
+		if(dispenAmount==0){
+			player.sendMessage(ChatColor.RED+""+ ChatColor.BOLD + 
+					"There are no nearby dispensers that can be cleared.");
+			return;
+		}
+		else{
+			player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD +
+					"You cleared " + dispenAmount + " dispensers.");	
+			return;
+		}
+	}
 	public void fillSurvival(Player player){
 		Debug.message(player,"A1");
 		if(!(player.hasPermission("tntplus.tntfiller.*")||
@@ -140,12 +164,15 @@ public class TNTfiller implements Listener, CommandExecutor{
 				int plusOne=0;
 				if(leftOvers>0)plusOne=1;
 				int fillAmount=dispenserAverage+plusOne;
+				int totalFillAmount=fillAmount+sqz;
 				ItemStack invItem=inv.getItem(i);
 				if(invItem==null||invItem.getType()==null||invItem.getType().equals(Material.AIR)){
-					if(fillAmount<1){
-						continue;
+					if(totalFillAmount<1)continue;
+					if(totalFillAmount>64){
+						sqz=totalFillAmount-64;
+						totalFillAmount=64;
 					}
-					inv.setItem(i, new ItemStack(Material.TNT,fillAmount));
+					inv.setItem(i, new ItemStack(Material.TNT,totalFillAmount));
 					filledTnt+=fillAmount;
 					if(leftOvers>0){
 					leftOvers--;
@@ -163,7 +190,7 @@ public class TNTfiller implements Listener, CommandExecutor{
 					}
 				}
 				else{
-					sqz+=filledTnt;
+					sqz+=fillAmount;
 					fullPerI--;
 					continue;
 				}
@@ -323,7 +350,18 @@ public class TNTfiller implements Listener, CommandExecutor{
 			return false;		
 		}
 		else if(command.getName().equals("tntclear")){
-			
+			Player player=(Player) sender;
+			if((player.getGameMode().equals(GameMode.CREATIVE))){
+				if((player.hasPermission("tntplus.tntfiller.*")
+						||player.hasPermission("tntplus.*")
+						||player.hasPermission("tntplus.tntfiller.tntclear")))clearTnt(player);
+				else player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD +
+						"You don't have permissions to use"+
+						" TNT filler. \n"+ChatColor.BLUE + "Vote (/vote) to get it!");
+				return true;
+			}
+			else player.sendMessage(ChatColor.RED+""+ChatColor.BOLD+"You are not in the right gamemode!");
+			return true;
 		}
 		return false;
 	}
